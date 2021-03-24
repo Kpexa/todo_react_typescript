@@ -1,8 +1,9 @@
 import React from 'react';
+import { Navbar } from './components/Navbar';
 
 const App: React.FC = () => {
   return (
-    <h3>Hello React + TypeScript</h3>
+    <Navbar/>
   );
 }
 
