@@ -1,6 +1,6 @@
 import React from 'react';
 
-function App() {
+const App: React.FC = () => {
   return (
     <h3>Hello React + TypeScript</h3>
   );
