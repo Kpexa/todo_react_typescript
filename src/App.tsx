@@ -1,59 +1,20 @@
-import React, { useEffect, useState } from 'react'
-import { AddTodo } from './components/AddTodo'
+import React from 'react'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import { Navbar } from './components/Navbar'
-import { TodoList } from './components/TodoList'
-import { ITodo } from './interfaces'
+import { AboutPage } from './pages/AboutPage'
+import { TodosPage } from './pages/TodosPage'
 
 const App: React.FC = (props) => {
-  const [todos, setTodos] = useState<ITodo[]>([])
-
-  useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem('todos') || '[]') as ITodo[]
-    setTodos(saved)
-  }, [])
-
-  useEffect(() => {
-    localStorage.setItem('todos', JSON.stringify(todos))
-  }, [todos])
-
-  const addTodoHandler = (title: string) => {
-    const newTodo: ITodo = {
-      title,
-      id: Date.now(),
-      completed: false,
-    }
-    setTodos((prevState) => [newTodo, ...prevState])
-  }
-
-  const toggleTodoStatusHandler = (id: number) => {
-    setTodos((prevState) =>
-      prevState.map((todo) => {
-        if (todo.id === id) {
-          return { ...todo, completed: !todo.completed }
-        }
-        return todo
-      })
-    )
-  }
-
-  const removeTodoHandler = (id: number) => {
-    setTodos((prevState) => prevState.filter((todo) => todo.id !== id))
-  }
-
-  console.log(todos)
-
   return (
-    <>
+    <BrowserRouter>
       <Navbar />
       <div className="container">
-        <AddTodo onAddTodo={addTodoHandler} />
-        <TodoList
-          todos={todos}
-          onToggle={toggleTodoStatusHandler}
-          onRemove={removeTodoHandler}
-        />
+        <Switch>
+          <Route component={TodosPage} path="/" exact />
+          <Route component={AboutPage} path="/about" />
+        </Switch>
       </div>
-    </>
+    </BrowserRouter>
   )
 }
 
